@@ -1,19 +1,19 @@
-const BASE_URL = "http://localhost:3000";
-
+const URL = "http://localhost:3000/student-portal/auth";
 export const login = async ({ email, password }) => {
-  const response = await fetch(`${BASE_URL}/student-portal/auth/login`, {
+  const response = await fetch(`${URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({
+      email,
+      password,
+    }),
   });
-
   const data = await response.json();
-
   if (!response.ok) {
     throw new Error(data.message || "Login failed");
   }
-
-  return data.loginData;
+  console.log(data.message);
+  return data.userId;
 };
