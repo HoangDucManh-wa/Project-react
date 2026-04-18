@@ -1,4 +1,4 @@
-export const validateEmail = async (email) => {
+export const validateEmail = (email) => {
   if (!validator.isEmail(email)) {
     throw new Error("Invalid email");
   }
@@ -48,5 +48,43 @@ export const validatePassword = (password) => {
     if (password[i] === " ") {
       throw new Error("Password must not contain spaces");
     }
+  }
+};
+export const validateStudentId = (studentId) => {
+  if (!studentId) {
+    throw new Error("invalid studentId");
+  }
+  if (typeof studentId !== "string") {
+    throw new Error("studentId must be a string");
+  }
+  if (studentId.includes(" ")) {
+    throw new Error("studentId must not contain spaces");
+  }
+  for (let i = 0; i < studentId.length; i++) {
+    if (!(studentId[i] >= "0" && studentId[i] <= "9")) {
+      throw new Error("invalid studentId");
+    }
+  }
+};
+
+export const validateUserName = (name) => {
+  if (!name) {
+    throw new Error("Name is required");
+  }
+
+  if (typeof name !== "string") {
+    throw new Error("Name must be a string");
+  }
+
+  if (name.trim().length !== name.length) {
+    throw new Error("Name must not start or end with a space");
+  }
+
+  if (name.length < 2) {
+    throw new Error("Name must be at least 2 characters long");
+  }
+
+  if (name.length > 40) {
+    throw new Error("Name must be at max 40 characters long");
   }
 };
