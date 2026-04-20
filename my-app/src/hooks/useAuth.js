@@ -7,7 +7,6 @@ import {
 } from "../utils/validator.js";
 import { login, logout, register } from "../services/authServices.js";
 export const useAuth = () => {
-  const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [state, setState] = useState(null);
   const [error, setError] = useState("");
@@ -17,8 +16,8 @@ export const useAuth = () => {
     try {
       validateEmail(email);
       validatePassword(password);
-      const id = await login({ email, password });
-      setUserId(id);
+      const user = await login({ email, password });
+      setUser(user);
       setState("success");
     } catch (err) {
       setError(err.message);
@@ -31,7 +30,7 @@ export const useAuth = () => {
     try {
       const message = await logout();
       setState("success");
-      setUserId(null);
+      setUser(null);
     } catch (err) {
       setError(err.message);
       setState("fail");
@@ -57,7 +56,6 @@ export const useAuth = () => {
     }
   };
   return {
-    userId,
     user,
     state,
     error,

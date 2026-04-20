@@ -16,7 +16,7 @@ export const login = async ({ email, password }) => {
     throw new Error(data.message || "Login failed");
   }
 
-  return data.userId;
+  return data.user;
 };
 
 export const logout = async () => {
