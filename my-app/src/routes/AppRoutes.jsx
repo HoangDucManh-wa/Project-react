@@ -1,23 +1,23 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Login from "../pages/Login";
-// import Home from "../pages/Home";
-// import ProtectedRoute from "./ProtectedRoute";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LoginPage } from "../pages/auth/Login.jsx";
+import Home from "../pages/Home";
+import { ProtectedRoute } from "./ProtectedRoute.jsx";
 
-// export default function AppRoute() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/login" element={<Login />} />
+export default function AppRoute() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
 
-//         <Route
-//           path="/"
-//           element={
-//             <ProtectedRoute>
-//               <Home />
-//             </ProtectedRoute>
-//           }
-//         />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
