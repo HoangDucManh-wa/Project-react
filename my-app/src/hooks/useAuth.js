@@ -59,8 +59,8 @@ export const useAuth = () => {
     user,
     state,
     error,
-    handleLogin,
-    handleLogout,
-    handleRegister,
+    login: handleLogin,
+    logout: handleLogout,
+    register: handleRegister,
   };
 };
