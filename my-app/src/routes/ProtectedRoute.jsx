@@ -9,7 +9,7 @@ export const ProtectedRoute = ({ children }) => {
     return <div>Có lỗi xác thực</div>;
   }
   if (!user) {
-    return <Navigate to="/student-portal/login" replace />;
+    return <Navigate to="/login" replace />;
   }
   return children;
 };

@@ -7,13 +7,10 @@ export default function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/student-portal/login" element={<LoginPage />} />
-
-        {/* redirect */}
-        <Route path="/" element={<Navigate to="/student-portal" />} />
+        <Route path="/login" element={<LoginPage />} />
 
         <Route
-          path="/student-portal"
+          path="/"
           element={
             <ProtectedRoute>
               <Home />
