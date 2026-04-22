@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   server: {
     proxy: {
-      "/student-portal": {
+      "/api": {
         target: "http://localhost:3000",
         changeOrigin: true,
         secure: false,

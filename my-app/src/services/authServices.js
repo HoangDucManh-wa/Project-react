@@ -1,4 +1,4 @@
-const URL = "student-portal/auth";
+const URL = "/api/student-portal/auth";
 
 export const login = async ({ email, password }) => {
   const response = await fetch(`${URL}/login`, {
