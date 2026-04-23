@@ -70,7 +70,7 @@ export const validateStudentId = (studentId) => {
 
 export const validateUserName = (name) => {
   if (!name) {
-    throw new Error("Name is required");
+    throw new Error("Name iss required");
   }
 
   if (typeof name !== "string") {

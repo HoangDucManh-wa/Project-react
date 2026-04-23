@@ -40,13 +40,13 @@ export const useAuth = () => {
     setState("pending");
     setError("");
     try {
-      const { email, password, studentId, userName } = data;
+      const { email, password, studentId, name } = data;
       validateEmail(email);
       validatePassword(password);
       if (studentId) {
         validateStudentId(studentId);
       }
-      validateUserName(userName);
+      validateUserName(name);
       const user = await register(data);
       setUser(user);
       setState("success");
