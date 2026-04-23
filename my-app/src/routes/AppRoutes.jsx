@@ -3,23 +3,31 @@ import { LoginPage } from "../pages/auth/Login.jsx";
 import { RegisterPage } from "../pages/auth/Register.jsx";
 import Home from "../pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
+import MainLayout from "../layouts/MainLayout.jsx";
 
 export default function AppRoute() {
   const baseURL = "/student-portal";
+
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path={`${baseURL}/login`} element={<LoginPage />} />
-        <Route path="/" element={<Navigate to={`${baseURL}`} replace />} />
         <Route path={`${baseURL}/register`} element={<RegisterPage />} />
+
+        {/* Redirect root */}
+        <Route path="/" element={<Navigate to={baseURL} replace />} />
+
+        {/* Protected + Layout */}
         <Route
-          path={`${baseURL}`}
           element={
             <ProtectedRoute>
-              <Home />
+              <MainLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path={`${baseURL}`} element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

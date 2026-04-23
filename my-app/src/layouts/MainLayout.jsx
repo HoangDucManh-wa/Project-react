@@ -1,16 +1,41 @@
 // layouts/MainLayout.jsx
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+import "./MainLayout.css";
 
 export default function MainLayout() {
-  return (
-    <div>
-      <header style={{ padding: 10, fontWeight: "bold" }}>
-        student-portal
-      </header>
+  const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
 
-      <main style={{ padding: 10 }}>
-        <Outlet />
-      </main>
+  const handleLogout = () => {
+    logout();
+    navigate("/student-portal/login");
+  };
+
+  return (
+    <div className="container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <h3 className="logo">Student Portal</h3>
+
+        <nav className="nav">
+          <p onClick={() => navigate("/student-portal")}>Dashboard</p>
+        </nav>
+      </aside>
+
+      {/* Main */}
+      <div className="main">
+        {/* Header */}
+        <header className="header">
+          <span>Welcome, {user?.name}</span>
+          <button onClick={handleLogout}>Logout</button>
+        </header>
+
+        {/* Content */}
+        <main className="content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
