@@ -4,19 +4,17 @@ import { RegisterPage } from "../pages/auth/Register.jsx";
 import Home from "../pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
-
+import { BASE_URL } from "../config/index.js";
 export default function AppRoute() {
-  const baseURL = "/student-portal";
-
   return (
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path={`${baseURL}/login`} element={<LoginPage />} />
-        <Route path={`${baseURL}/register`} element={<RegisterPage />} />
+        <Route path={`${BASE_URL}/login`} element={<LoginPage />} />
+        <Route path={`${BASE_URL}/register`} element={<RegisterPage />} />
 
         {/* Redirect root */}
-        <Route path="/" element={<Navigate to={baseURL} replace />} />
+        <Route path="/" element={<Navigate to={BASE_URL} replace />} />
 
         {/* Protected + Layout */}
         <Route
@@ -26,7 +24,7 @@ export default function AppRoute() {
             </ProtectedRoute>
           }
         >
-          <Route path={`${baseURL}`} element={<Home />} />
+          <Route index element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>

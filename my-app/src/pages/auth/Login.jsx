@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext.jsx";
 
 export const LoginPage = () => {
-  const { login, state, error } = useAuthContext();
+  const { login, state, error, user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  console.log("Login Page", { url: window.location.href });
   const handleLogin = async () => {
     await login({ email, password });
   };
 
   useEffect(() => {
-    if (state === "success") {
+    if (user) {
       navigate("/");
     }
   }, [state, navigate]);

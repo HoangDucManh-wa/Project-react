@@ -1,4 +1,5 @@
-const URL = "/api/student-portal/auth";
+import { API_URL_SERVICE } from "../config/index.js";
+const URL = API_URL_SERVICE;
 
 export const login = async ({ email, password }) => {
   const response = await fetch(`${URL}/login`, {
