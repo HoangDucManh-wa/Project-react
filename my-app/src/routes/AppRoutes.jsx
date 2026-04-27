@@ -24,7 +24,7 @@ export default function AppRoute() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Home />} />
+          <Route path={`${BASE_URL}`} element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -46,3 +46,15 @@ export const register = async (data) => {
   }
   return responseData.user;
 };
+export const getMe = async () => {
+  const response = await fetch(`${URL}/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Not authenticated");
+  }
+
+  return response.json();
+};

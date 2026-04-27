@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   validateEmail,
   validatePassword,
   validateStudentId,
   validateUserName,
 } from "../utils/validator.js";
-import { login, logout, register } from "../services/authServices.js";
+import { login, logout, register, getMe } from "../services/authServices.js";
+
 export const useAuth = () => {
   const [user, setUser] = useState(null);
   const [state, setState] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getMe()
+      .then((user) => setUser(user))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
+  }, []);
+
   const handleLogin = async ({ email, password }) => {
     setState("pending");
     setError("");
@@ -24,18 +34,20 @@ export const useAuth = () => {
       setState("fail");
     }
   };
+
   const handleLogout = async () => {
     setState("pending");
     setError("");
     try {
-      const message = await logout();
-      setState("success");
+      await logout();
       setUser(null);
+      setState("success");
     } catch (err) {
       setError(err.message);
       setState("fail");
     }
   };
+
   const handleRegister = async (data) => {
     setState("pending");
     setError("");
@@ -43,10 +55,9 @@ export const useAuth = () => {
       const { email, password, studentId, name } = data;
       validateEmail(email);
       validatePassword(password);
-      if (studentId) {
-        validateStudentId(studentId);
-      }
+      if (studentId) validateStudentId(studentId);
       validateUserName(name);
+
       const user = await register(data);
       setUser(user);
       setState("success");
@@ -55,10 +66,12 @@ export const useAuth = () => {
       setState("fail");
     }
   };
+
   return {
     user,
     state,
     error,
+    loading,
     login: handleLogin,
     logout: handleLogout,
     register: handleRegister,

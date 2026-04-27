@@ -10,6 +10,7 @@ export const LoginPage = () => {
   console.log("Login Page", { url: window.location.href });
   const handleLogin = async () => {
     await login({ email, password });
+    console.log(user);
   };
 
   useEffect(() => {
