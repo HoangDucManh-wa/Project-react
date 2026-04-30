@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LoginPage } from "../pages/auth/Login.jsx";
 import { RegisterPage } from "../pages/auth/Register.jsx";
+import { ClubPage } from "../pages/club/Club.jsx";
 import Home from "../pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
@@ -25,6 +26,7 @@ export default function AppRoute() {
           }
         >
           <Route path={`${BASE_URL}`} element={<Home />} />
+          <Route path={`${BASE_URL}/club`} element={<ClubPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

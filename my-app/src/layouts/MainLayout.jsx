@@ -32,7 +32,7 @@ export default function MainLayout() {
         <nav className="nav">
           <p onClick={() => navigate(`${BASE_URL}`)}>Dashboard</p>
 
-          <p onClick={() => navigate(`${BASE_URL}/clubs`)}>Clubs</p>
+          <p onClick={() => navigate(`${BASE_URL}/club`)}>Clubs</p>
 
           {/* Activity */}
           <div>

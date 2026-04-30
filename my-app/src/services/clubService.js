@@ -14,8 +14,7 @@ export const getClubsService = async ({ page, limit }) => {
   if (!response.ok) {
     throw new Error(data.message || "get club failed");
   }
-  const clubs = data.data;
-  return clubs;
+  return data.data;
 };
 
 // SEARCH BY NAME
@@ -30,8 +29,7 @@ export const getClubsByNameService = async ({ name }) => {
   if (!response.ok) {
     throw new Error(data.message || "search clubs by name failed");
   }
-  const clubs = data.data;
-  return clubs;
+  return data.data;
 };
 
 // SEARCH BY CATEGORY
@@ -46,9 +44,7 @@ export const getClubsByCategoryService = async ({ category }) => {
   if (!response.ok) {
     throw new Error(data.message || "search clubs by category failed");
   }
-  const clubs = data.data;
-
-  return clubs;
+  return data.data;
 };
 
 // GET BY ID
@@ -83,8 +79,7 @@ export const createClubService = async (clubData) => {
   if (!response.ok) {
     throw new Error(data.message || "create club failed");
   }
-  const club = data.data;
-  return club;
+  return data.data;
 };
 
 // UPDATE (admin)
@@ -103,8 +98,7 @@ export const updateClubService = async ({ id, clubData }) => {
   if (!response.ok) {
     throw new Error(data.message || "update club failed");
   }
-  const club = data.data;
-  return club;
+  return data.data;
 };
 
 // DELETE (admin)
@@ -119,6 +113,5 @@ export const deleteClubService = async ({ id }) => {
   if (!response.ok) {
     throw new Error(data.message || "delete club failed");
   }
-  const club = data.data;
-  return club;
+  return data.data;
 };

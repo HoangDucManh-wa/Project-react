@@ -62,7 +62,7 @@ export default function Home() {
       <section className="section">
         <div className="section-header">
           <h3>🏫 Clubs</h3>
-          <span onClick={() => navigate(`${BASE_URL}/clubs`)}>View all →</span>
+          <span onClick={() => navigate(`${BASE_URL}/club`)}>View all →</span>
         </div>
 
         <div className="card-grid">
@@ -70,7 +70,7 @@ export default function Home() {
             <div
               key={c.id}
               className="card"
-              onClick={() => navigate(`${BASE_URL}/clubs/${c.id}`)}
+              onClick={() => navigate(`${BASE_URL}/club/${c.id}`)}
             >
               <h4>{c.name}</h4>
               <p>{c.description}</p>
