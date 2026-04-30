@@ -1,5 +1,5 @@
 import { API_URL_SERVICE } from "../config/index.js";
-const URL = API_URL_SERVICE;
+const URL = `${API_URL_SERVICE}/auth`;
 
 export const login = async ({ email, password }) => {
   const response = await fetch(`${URL}/login`, {
