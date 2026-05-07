@@ -8,6 +8,7 @@ import "./Club.css";
 export const ClubPage = () => {
   const {
     clubs,
+    club,
     loading,
     error,
     getClubs,
@@ -21,7 +22,7 @@ export const ClubPage = () => {
   const { user } = useAuthContext();
 
   const isAdmin = user?.role === "admin";
-  const clubList = Array.isArray(clubs) ? clubs : clubs?.clubs || [];
+  const clubList = clubs?.clubs || [];
   const currentPage = clubs?.page || 1;
   const currentLimit = clubs?.limit || 10;
   const pageNumber = clubs?.pageNumber || 1;
@@ -31,9 +32,10 @@ export const ClubPage = () => {
   const [category, setCategory] = useState("");
 
   const [form, setForm] = useState({
-    name: "",
+    clubName: "",
     description: "",
     category: "",
+    leaderId: "",
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -67,7 +69,6 @@ export const ClubPage = () => {
 
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
-
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -76,7 +77,7 @@ export const ClubPage = () => {
 
   const handleSubmitClub = async () => {
     if (!isAdmin) return;
-
+    console.log(JSON.stringify(form));
     if (editingId) {
       await updateClub({
         id: editingId,
@@ -88,9 +89,10 @@ export const ClubPage = () => {
     }
 
     setForm({
-      name: "",
+      clubName: "",
       description: "",
       category: "",
+      leaderId: "",
     });
 
     getClubs({ page: 1, limit: 10 });
@@ -99,7 +101,7 @@ export const ClubPage = () => {
   const handleEditClub = (club) => {
     setEditingId(club._id || club.id);
     setForm({
-      name: club.clubName || "",
+      clubName: club.clubName || "",
       description: club.description || "",
       category: club.category || "",
     });
@@ -115,7 +117,7 @@ export const ClubPage = () => {
   const handleCancelEdit = () => {
     setEditingId(null);
     setForm({
-      name: "",
+      clubName: "",
       description: "",
       category: "",
     });
@@ -131,6 +133,7 @@ export const ClubPage = () => {
 
       <div className="club-toolbar">
         <div className="club-search">
+          <label>Name:</label>
           <Input
             type="text"
             placeholder="Search by name"
@@ -143,12 +146,16 @@ export const ClubPage = () => {
         </div>
 
         <div className="club-search">
-          <Input
-            type="text"
-            placeholder="Search by category"
+          <label>Category:</label>
+          <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          />
+          >
+            <option value="academic">academic</option>
+            <option value="sports">sports</option>
+            <option value="volunteer">volunteer</option>
+            <option value="other">other</option>
+          </select>
           <Button size="small" onClick={handleSearchByCategory}>
             Filter
           </Button>
@@ -161,19 +168,23 @@ export const ClubPage = () => {
 
           <Input
             type="text"
-            name="name"
+            name="clubName"
             placeholder="Club name"
-            value={form.name}
+            value={form.clubName}
             onChange={handleChangeForm}
           />
 
-          <Input
-            type="text"
+          <select
             name="category"
-            placeholder="Category"
             value={form.category}
             onChange={handleChangeForm}
-          />
+          >
+            <option value="">Select category</option>
+            <option value="academic">academic</option>
+            <option value="sports">sports</option>
+            <option value="volunteer">volunteer</option>
+            <option value="other">other</option>
+          </select>
 
           <Input
             type="text"
@@ -182,7 +193,15 @@ export const ClubPage = () => {
             value={form.description}
             onChange={handleChangeForm}
           />
-
+          {!editingId && (
+            <Input
+              type="text"
+              name="leaderId"
+              placeholder="Leader Id"
+              value={form.leaderId}
+              onChange={handleChangeForm}
+            />
+          )}
           <div className="club-form-actions">
             <Button size="small" onClick={handleSubmitClub}>
               {editingId ? "Update" : "Create"}

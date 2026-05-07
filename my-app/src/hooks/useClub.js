@@ -65,6 +65,7 @@ export const useClub = () => {
   // UPDATE
   const handle_updateClub = async ({ id, clubData }) => {
     const result = await handleAsync(() => updateClubService({ id, clubData }));
+    console.log(clubData);
     return result;
   };
 

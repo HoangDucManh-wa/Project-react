@@ -32,6 +32,7 @@ export const logout = async () => {
   return data.message;
 };
 export const register = async (data) => {
+  console.log(data);
   const response = await fetch(`${URL}/register`, {
     method: "POST",
     headers: {
