@@ -1,16 +1,19 @@
 import "./Input.css";
 
-const Input = ({ value, name, onChange, type = "text", placeholder }) => {
+export default function Input({
+  type = "text",
+  variant = "primary",
+  placeholder,
+  onChange,
+  value,
+}) {
   return (
     <input
-      className="input"
-      name={name}
-      value={value}
-      onChange={onChange}
       type={type}
+      className={`input-${variant}`}
       placeholder={placeholder}
+      onChange={onChange}
+      value={value}
     />
   );
-};
-
-export default Input;
+}

@@ -1,24 +1,20 @@
 import "./Button.css";
-
-const Button = ({
+export default function Button({
   children,
-  onClick,
   type = "button",
-  disabled = false,
   loading = false,
-  size = "large",
-  variant = "primary",
-}) => {
+  onClick,
+  disabled,
+  size,
+}) {
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled || loading}
-      className={`btn btn-${size} btn-${variant}`}
+      disabled={loading || disabled}
+      className={`button-${size}`}
     >
-      {loading ? "Loading..." : children}
+      {loading ? "loading" : children}
     </button>
   );
-};
-
-export default Button;
+}

@@ -1,37 +1,47 @@
 import { useState, useEffect } from "react";
-import { useAuthContext } from "../../context/AuthContext";
+
 import { useNavigate } from "react-router-dom";
 
+import { useAuthContext } from "../../context/AuthContext";
+
 export const RegisterPage = () => {
-  console.log("Register running");
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
+
   const [name, setName] = useState("");
+
   const [studentId, setStudentId] = useState("");
+
   const [university, setUniversity] = useState("");
 
-  const { register, state, error } = useAuthContext();
+  const { register, loading, error, user } = useAuthContext();
+
   const navigate = useNavigate();
 
-  async function handleRegister() {
-    try {
-      const data = { name, email, password, studentId, university };
-      await register(data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  const handleRegister = async () => {
+    const data = {
+      name,
+      email,
+      password,
+      studentId,
+      university,
+    };
+
+    await register(data);
+  };
 
   useEffect(() => {
-    if (state === "success") {
+    if (user) {
       navigate("/");
     }
-  }, [state, navigate]);
+  }, [user, navigate]);
 
   return (
     <div>
       <div>
         <label>Name:</label>
+
         <input
           type="text"
           value={name}
@@ -43,6 +53,7 @@ export const RegisterPage = () => {
 
       <div>
         <label>Email:</label>
+
         <input
           type="email"
           value={email}
@@ -54,6 +65,7 @@ export const RegisterPage = () => {
 
       <div>
         <label>Password:</label>
+
         <input
           type="password"
           value={password}
@@ -65,6 +77,7 @@ export const RegisterPage = () => {
 
       <div>
         <label>StudentId:</label>
+
         <input
           type="text"
           value={studentId}
@@ -76,6 +89,7 @@ export const RegisterPage = () => {
 
       <div>
         <label>University:</label>
+
         <input
           type="text"
           value={university}
@@ -85,11 +99,11 @@ export const RegisterPage = () => {
         />
       </div>
 
-      <button onClick={handleRegister} disabled={state === "pending"}>
-        {state === "pending" ? "Registering..." : "Register"}
+      <button onClick={handleRegister} disabled={loading}>
+        {loading ? "Registering..." : "Register"}
       </button>
 
-      {state === "fail" && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

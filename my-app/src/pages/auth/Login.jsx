@@ -1,21 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useAuthContext } from "../../context/AuthContext.jsx";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+
 import "./Login.css";
 
 export const LoginPage = () => {
-  const { login, state, error, user } = useAuthContext();
+  const { login, loading, error, user } = useAuthContext();
 
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    await login({ email, password });
+    await login({
+      email,
+      password,
+    });
   };
 
   useEffect(() => {
@@ -32,6 +38,7 @@ export const LoginPage = () => {
         <div className="login-form">
           <div className="form-group">
             <label>Email</label>
+
             <Input
               type="email"
               value={email}
@@ -41,6 +48,7 @@ export const LoginPage = () => {
 
           <div className="form-group">
             <label>Password</label>
+
             <Input
               type="password"
               value={password}
@@ -48,11 +56,11 @@ export const LoginPage = () => {
             />
           </div>
 
-          <Button onClick={handleLogin} disabled={state === "pending"}>
-            {state === "pending" ? "Logging in..." : "Login"}
+          <Button size="large" onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </Button>
 
-          {state === "fail" && <p className="login-error">{error}</p>}
+          {error && <p className="login-error">{error}</p>}
         </div>
       </div>
     </div>

@@ -1,70 +1,46 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useState } from "react";
+import { BASE_URL } from "../config";
 import "./MainLayout.css";
-import { BASE_URL } from "../config/index";
-
-export default function MainLayout() {
-  const { user, logout } = useAuthContext();
+const MainLayout = () => {
   const navigate = useNavigate();
 
-  const [openActivity, setOpenActivity] = useState(false);
+  const { logout, error, user, loading } = useAuthContext();
 
   const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
+    await logout();
   };
 
   return (
-    <div className="container">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        {/* Logo */}
-        <div className="logo-section">
-          <img src="/logo.png" alt="school logo" className="logo-img" />
-          <h3>Student Portal</h3>
+    <div className="main-layout">
+      <aside className="main-layout__sidebar">
+        <div className="logo-box">
+          <img
+            className="logo"
+            src="../../public/Logo-DH-Cong-Nghe-UET.webp"
+            alt="UET"
+          />
         </div>
 
-        {/* Navigation */}
-        <nav className="nav">
-          <p onClick={() => navigate(`${BASE_URL}`)}>Dashboard</p>
-
-          <p onClick={() => navigate(`${BASE_URL}/club`)}>Clubs</p>
-
-          {/* Activity */}
-          <div>
-            <p onClick={() => setOpenActivity(!openActivity)}>
-              Activity {openActivity ? "▲" : "▼"}
-            </p>
-
-            {openActivity && (
-              <div className="submenu">
-                <p onClick={() => navigate(`${BASE_URL}/activity/event`)}>
-                  Event
-                </p>
-                <p onClick={() => navigate(`${BASE_URL}/activity/competition`)}>
-                  Competition
-                </p>
-              </div>
-            )}
-          </div>
-        </nav>
+        <span onClick={() => navigate(`${BASE_URL}`)}>Home</span>
+        <span onClick={() => navigate(`${BASE_URL}/club`)}>Club</span>
       </aside>
 
-      {/* Main */}
-      <div className="main">
-        <header className="header">
-          <span>Welcome, {user?.name}</span>
-          <button onClick={handleLogout}>Logout</button>
+      <main className="main-layout__content">
+        <header className="main-layout__header">
+          <span className="main-layout__welcome">Welcome, {user?.name}</span>
+
+          {error && <span>{error}</span>}
+
+          <span className="main-layout__logout" onClick={handleLogout}>
+            {loading ? "loading" : "logout"}
+          </span>
         </header>
 
-        <main className="content">
-          <Outlet />
-        </main>
-      </div>
+        <Outlet />
+      </main>
     </div>
   );
-}
+};
+
+export default MainLayout;

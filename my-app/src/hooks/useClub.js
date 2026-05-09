@@ -12,80 +12,78 @@ import { useState } from "react";
 
 export const useClub = () => {
   const [clubs, setClubs] = useState([]);
-  const [club, setClub] = useState(null); // dùng cho get by id
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [club, setClub] = useState(null);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  // 🔹 wrapper xử lý async chung
-  const handleAsync = async (callback) => {
-    setError(null);
-    setLoading(true);
+  const handle = async (callback, data) => {
+    setError("");
+    setPending(true);
+
     try {
-      const result = await callback();
+      const result = await callback(data);
       return result;
     } catch (err) {
       setError(err.message);
+      throw new Error(err.message);
     } finally {
-      setLoading(false);
+      setPending(false);
     }
   };
 
-  // GET ALL
   const handle_getClubs = async ({ page, limit }) => {
-    const result = await handleAsync(() => getClubsService({ page, limit }));
-    if (result) setClubs(result);
+    const result = await handle(getClubsService, { page, limit });
+    const { clubs } = result;
+    setClubs(clubs);
+    return result;
   };
 
-  // SEARCH NAME
   const handle_getClubsByName = async ({ name }) => {
-    const result = await handleAsync(() => getClubsByNameService({ name }));
-    if (result) setClubs(result);
+    const result = await handle(getClubsByNameService, { name });
+    const { clubs } = result;
+    setClubs(clubs);
+    return result;
   };
 
-  // SEARCH CATEGORY
   const handle_getClubsByCategory = async ({ category }) => {
-    const result = await handleAsync(() =>
-      getClubsByCategoryService({ category }),
-    );
-    if (result) setClubs(result);
+    const result = await handle(getClubsByCategoryService, { category });
+    const { clubs } = result;
+    setClubs(clubs);
+    return result;
   };
 
-  // GET BY ID
   const handle_getClubById = async ({ id }) => {
-    const result = await handleAsync(() => getClubByIdService({ id }));
-    if (result) setClub(result);
+    const club = await handle(getClubByIdService, { id });
+    setClub(club);
+    return club;
   };
 
-  // CREATE
   const handle_createClub = async (clubData) => {
-    const result = await handleAsync(() => createClubService(clubData));
-    return result;
+    const club = await handle(createClubService, clubData);
+    setClub(club);
+    return club;
   };
 
-  // UPDATE
   const handle_updateClub = async ({ id, clubData }) => {
-    const result = await handleAsync(() => updateClubService({ id, clubData }));
-    console.log(clubData);
-    return result;
+    const club = await handle(updateClubService, { id, clubData });
+    setClub(club);
+    return club;
   };
 
-  // DELETE
   const handle_deleteClub = async ({ id }) => {
-    const result = await handleAsync(() => deleteClubService({ id }));
-    return result;
+    const message = await handle(deleteClubService, { id });
+    return message;
   };
 
   return {
     clubs,
     club,
-    loading,
+    pending,
     error,
-
     getClubs: handle_getClubs,
     getClubsByName: handle_getClubsByName,
     getClubsByCategory: handle_getClubsByCategory,
     getClubById: handle_getClubById,
-
     createClub: handle_createClub,
     updateClub: handle_updateClub,
     deleteClub: handle_deleteClub,

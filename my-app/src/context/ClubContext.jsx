@@ -1,16 +1,14 @@
+import { useClub } from "../hooks/useClub.js";
 import { createContext, useContext } from "react";
-import { useClub } from "../hooks/useClub";
 const ClubContext = createContext(null);
 export const ClubProvider = ({ children }) => {
-  const clubData = useClub();
-  return (
-    <ClubContext.Provider value={clubData}>{children}</ClubContext.Provider>
-  );
+  const data = useClub();
+  return <ClubContext.Provider value={data}>{children}</ClubContext.Provider>;
 };
 export const useClubContext = () => {
-  const clubData = useContext(ClubContext);
-  if (!clubData) {
+  const data = useContext(ClubContext);
+  if (!data) {
     throw new Error("useClubContext must be within ClubProvider");
   }
-  return clubData;
+  return data;
 };

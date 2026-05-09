@@ -5,15 +5,19 @@ import {
   validateStudentId,
   validateUserName,
 } from "../utils/validator.js";
+
 import { login, logout, register, getMe } from "../services/authServices.js";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
-  const [state, setState] = useState(null);
+
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+
     getMe()
       .then((user) => setUser(user))
       .catch(() => setUser(null))
@@ -21,57 +25,77 @@ export const useAuth = () => {
   }, []);
 
   const handleLogin = async ({ email, password }) => {
-    setState("pending");
+    setLoading(true);
+
     setError("");
+
     try {
       validateEmail(email);
+
       validatePassword(password);
-      const user = await login({ email, password });
+
+      const user = await login({
+        email,
+        password,
+      });
+
       setUser(user);
-      setState("success");
     } catch (err) {
       setError(err.message);
-      setState("fail");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    setState("pending");
+    setLoading(true);
+
     setError("");
+
     try {
       await logout();
+
       setUser(null);
-      setState("success");
     } catch (err) {
       setError(err.message);
-      setState("fail");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRegister = async (data) => {
-    setState("pending");
+    setLoading(true);
+
     setError("");
+
     try {
       const { email, password, studentId, name } = data;
+
       validateEmail(email);
+
       validatePassword(password);
-      if (studentId) validateStudentId(studentId);
+
+      if (studentId) {
+        validateStudentId(studentId);
+      }
+
       validateUserName(name);
 
       const user = await register(data);
+
       setUser(user);
-      setState("success");
     } catch (err) {
       setError(err.message);
-      setState("fail");
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
     user,
-    state,
     error,
     loading,
+
     login: handleLogin,
     logout: handleLogout,
     register: handleRegister,
