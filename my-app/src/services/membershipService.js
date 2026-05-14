@@ -12,7 +12,7 @@ export const joinClubService = async ({ clubId }) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "join club failed");
   }
 
   return data.data;
@@ -28,7 +28,7 @@ export const leaveClubService = async ({ clubId }) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "leave club failed");
   }
 
   return data.data;
@@ -44,7 +44,7 @@ export const getClubMembersService = async ({ clubId }) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "get members in the club failed");
   }
 
   return data.data;
@@ -60,7 +60,7 @@ export const getUserClubsService = async () => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "get clubs of user failed");
   }
 
   return data.data;
@@ -86,7 +86,7 @@ export const updateMemberRoleByAdminService = async ({
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "update member role failed");
   }
 
   return data.data;
@@ -102,7 +102,7 @@ export const deleteMemberByAdminService = async ({ clubId, memberId }) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(data.message || "delete member in the club failed");
   }
 
   return data.data;

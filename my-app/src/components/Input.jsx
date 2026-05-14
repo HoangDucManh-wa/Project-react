@@ -5,6 +5,7 @@ export default function Input({
   variant = "primary",
   placeholder,
   onChange,
+  onKeyDown,
   value,
 }) {
   return (
@@ -14,6 +15,7 @@ export default function Input({
       placeholder={placeholder}
       onChange={onChange}
       value={value}
+      onKeyDown={onKeyDown}
     />
   );
 }

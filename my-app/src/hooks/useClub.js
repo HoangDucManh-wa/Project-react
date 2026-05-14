@@ -8,7 +8,7 @@ import {
   deleteClubService,
 } from "../services/clubService";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useClub = () => {
   const [clubs, setClubs] = useState([]);
@@ -16,7 +16,7 @@ export const useClub = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
 
-  const handle = async (callback, data) => {
+  const handle = useCallback(async (callback, data) => {
     setError("");
     setPending(true);
 
@@ -29,51 +29,51 @@ export const useClub = () => {
     } finally {
       setPending(false);
     }
-  };
+  }, []);
 
-  const handle_getClubs = async ({ page, limit }) => {
+  const handle_getClubs = useCallback(async ({ page, limit }) => {
     const result = await handle(getClubsService, { page, limit });
     const { clubs } = result;
     setClubs(clubs);
     return result;
-  };
+  }, [handle]);
 
-  const handle_getClubsByName = async ({ name }) => {
+  const handle_getClubsByName = useCallback(async ({ name }) => {
     const result = await handle(getClubsByNameService, { name });
     const { clubs } = result;
     setClubs(clubs);
     return result;
-  };
+  }, [handle]);
 
-  const handle_getClubsByCategory = async ({ category }) => {
+  const handle_getClubsByCategory = useCallback(async ({ category }) => {
     const result = await handle(getClubsByCategoryService, { category });
     const { clubs } = result;
     setClubs(clubs);
     return result;
-  };
+  }, [handle]);
 
-  const handle_getClubById = async ({ id }) => {
+  const handle_getClubById = useCallback(async ({ id }) => {
     const club = await handle(getClubByIdService, { id });
     setClub(club);
     return club;
-  };
+  }, [handle]);
 
-  const handle_createClub = async (clubData) => {
+  const handle_createClub = useCallback(async (clubData) => {
     const club = await handle(createClubService, clubData);
     setClub(club);
     return club;
-  };
+  }, [handle]);
 
-  const handle_updateClub = async ({ id, clubData }) => {
+  const handle_updateClub = useCallback(async ({ id, clubData }) => {
     const club = await handle(updateClubService, { id, clubData });
     setClub(club);
     return club;
-  };
+  }, [handle]);
 
-  const handle_deleteClub = async ({ id }) => {
+  const handle_deleteClub = useCallback(async ({ id }) => {
     const message = await handle(deleteClubService, { id });
     return message;
-  };
+  }, [handle]);
 
   return {
     clubs,
