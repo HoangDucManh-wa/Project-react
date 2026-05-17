@@ -2,7 +2,7 @@ import "./Input.css";
 
 export default function Input({
   type = "text",
-  variant = "primary",
+  variant = "dark",
   placeholder,
   onChange,
   onKeyDown,
