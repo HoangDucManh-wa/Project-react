@@ -8,8 +8,14 @@ import "./Club.css";
 const categories = ["academic", "sports", "volunteer", "other"];
 
 export function ClubPage() {
-  const { clubs, pending, getClubs, getClubsByName, getClubsByCategory } =
-    useClubContext();
+  const {
+    clubs,
+    setClubs,
+    pending,
+    getClubs,
+    getClubsByName,
+    getClubsByCategory,
+  } = useClubContext();
 
   const {
     isLoading,
@@ -24,9 +30,7 @@ export function ClubPage() {
   const [pageTotal, setPageTotal] = useState(0);
   const [name, setName] = useState(""); //This is the name of a club
   const [category, setCategory] = useState("");
-  const [buttonId, setButtonId] = useState(null); //Take id of the club when click the button
-  const [memberCountOverrides, setMemberCountOverrides] = useState({});
-
+  const [idButton, setIdButton] = useState(null); //Take id of the button of club
   useEffect(() => {
     const fetchData = async () => {
       const { pageNumber } = await getClubs({ page, limit: 10 });
@@ -41,22 +45,6 @@ export function ClubPage() {
   }, [getUserClubs]);
 
   const getClubId = (club) => club?._id; //If database uses MongoDB
-
-  const getMemberCount = (club) => {
-    const clubId = getClubId(club);
-    return memberCountOverrides[clubId] ?? club.memberCount;
-  };
-
-  const updateMemberCount = (clubId, delta, fallbackCount = 0) => {
-    setMemberCountOverrides((prev) => {
-      const current = prev[clubId] ?? fallbackCount;
-
-      return {
-        ...prev,
-        [clubId]: Math.max(0, current + delta),
-      };
-    });
-  };
 
   const isJoined = (clubId) => {
     if (!clubId || !joinedClubs?.length) return false;
@@ -85,34 +73,16 @@ export function ClubPage() {
     await getClubsByCategory({ category });
   };
 
-  const handle_joinClub = async (club) => {
-    const clubId = getClubId(club);
+  const handle_joinClub = async (clubId) => {
     if (!clubId || isJoined(clubId)) return;
-
-    setButtonId(clubId);
-
-    try {
-      await joinClub({ clubId });
-      updateMemberCount(clubId, 1, club.memberCount || 0);
-      await getUserClubs();
-    } finally {
-      setButtonId(null);
-    }
+    await joinClub({ clubId });
+    await getUserClubs();
   };
 
-  const handle_leaveClub = async (club) => {
-    const clubId = getClubId(club);
+  const handle_leaveClub = async (clubId) => {
     if (!clubId || !isJoined(clubId)) return;
-
-    setButtonId(clubId);
-
-    try {
-      await leaveClub({ clubId });
-      updateMemberCount(clubId, -1, club.memberCount || 0);
-      await getUserClubs();
-    } finally {
-      setButtonId(null);
-    }
+    await leaveClub({ clubId });
+    await getUserClubs();
   };
 
   const handle_reset = async () => {
@@ -235,7 +205,7 @@ export function ClubPage() {
 
                 {x.memberCount !== undefined && (
                   <span className="club-member-count">
-                    {getMemberCount(x)} members
+                    {x.memberCount} members
                   </span>
                 )}
 
@@ -243,20 +213,42 @@ export function ClubPage() {
                   {joined ? (
                     <button
                       className="btn-leave"
-                      disabled={isLoading && buttonId === clubId}
-                      onClick={() => handle_leaveClub(x)}
+                      disabled={idButton === clubId && isLoading}
+                      onClick={async () => {
+                        setIdButton(clubId);
+                        await handle_leaveClub(clubId);
+                        setClubs((prevClubs) =>
+                          prevClubs.map((club) =>
+                            getClubId(club) === clubId
+                              ? { ...club, memberCount: club.memberCount - 1 }
+                              : club,
+                          ),
+                        );
+                        setIdButton(null);
+                      }}
                     >
-                      {isLoading && buttonId === clubId
-                        ? "Processing"
-                        : "Leave"}
+                      {idButton === clubId && isLoading
+                        ? "processing"
+                        : "leave"}
                     </button>
                   ) : (
                     <button
                       className="btn-join"
-                      disabled={isLoading && buttonId === clubId}
-                      onClick={() => handle_joinClub(x)}
+                      disabled={idButton === clubId && isLoading}
+                      onClick={async () => {
+                        setIdButton(clubId);
+                        await handle_joinClub(clubId);
+                        setClubs((prevClubs) =>
+                          prevClubs.map((club) =>
+                            getClubId(club) === clubId
+                              ? { ...club, memberCount: club.memberCount + 1 }
+                              : club,
+                          ),
+                        );
+                        setIdButton(null);
+                      }}
                     >
-                      {isLoading && buttonId === clubId ? "Processing" : "Join"}
+                      {idButton === clubId && isLoading ? "processing" : "join"}
                     </button>
                   )}
                 </div>
