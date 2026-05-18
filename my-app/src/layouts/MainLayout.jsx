@@ -1,10 +1,15 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { BASE_URL } from "../config";
 import "./MainLayout.css";
-const MainLayout = () => {
-  const navigate = useNavigate();
 
+const basePath = BASE_URL || "";
+const navItems = [
+  { label: "Home", path: basePath },
+  { label: "Club", path: `${basePath}/club` },
+];
+
+const MainLayout = () => {
   const { logout, error, user, loading } = useAuthContext();
 
   const handleLogout = async () => {
@@ -17,27 +22,59 @@ const MainLayout = () => {
         <div className="logo-box">
           <img
             className="logo"
-            src="../../public/Logo-DH-Cong-Nghe-UET.webp"
+            src="/Logo-DH-Cong-Nghe-UET.webp"
             alt="UET"
           />
+          <div>
+            <span className="logo-box__title">UET Club</span>
+            <span className="logo-box__subtitle">Management</span>
+          </div>
         </div>
 
-        <span onClick={() => navigate(`${BASE_URL}`)}>Home</span>
-        <span onClick={() => navigate(`${BASE_URL}/club`)}>Club</span>
+        <nav className="main-layout__nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === basePath}
+              className={({ isActive }) =>
+                isActive
+                  ? "main-layout__nav-link main-layout__nav-link--active"
+                  : "main-layout__nav-link"
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
       </aside>
 
       <main className="main-layout__content">
         <header className="main-layout__header">
-          <span className="main-layout__welcome">Welcome, {user?.name}</span>
+          <div>
+            <span className="main-layout__eyebrow">Dashboard</span>
+            <h1 className="main-layout__welcome">
+              Welcome, {user?.name || "User"}
+            </h1>
+          </div>
 
-          {error && <span>{error}</span>}
+          <div className="main-layout__actions">
+            {error && <span className="main-layout__error">{error}</span>}
 
-          <span className="main-layout__logout" onClick={handleLogout}>
-            {loading ? "loading" : "logout"}
-          </span>
+            <button
+              className="main-layout__logout"
+              type="button"
+              onClick={handleLogout}
+              disabled={loading}
+            >
+              {loading ? "Logging out..." : "Logout"}
+            </button>
+          </div>
         </header>
 
-        <Outlet />
+        <div className="main-layout__body">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

@@ -4,6 +4,7 @@ import {
   validatePassword,
   validateStudentId,
   validateUserName,
+  validateRole,
 } from "../utils/validator.js";
 
 import { login, logout, register, getMe } from "../services/authServices.js";
@@ -69,7 +70,7 @@ export const useAuth = () => {
     setError("");
 
     try {
-      const { email, password, studentId, name } = data;
+      const { email, password, studentId, name, role } = data;
 
       validateEmail(email);
 
@@ -78,7 +79,9 @@ export const useAuth = () => {
       if (studentId) {
         validateStudentId(studentId);
       }
-
+      if (role) {
+        validateRole(role);
+      }
       validateUserName(name);
 
       const user = await register(data);

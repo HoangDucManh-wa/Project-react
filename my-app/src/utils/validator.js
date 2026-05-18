@@ -89,3 +89,14 @@ export const validateUserName = (name) => {
     throw new Error("Name must be at max 40 characters long");
   }
 };
+export const validateRole = (role) => {
+  if (!role) {
+    throw new Error("invalid role");
+  }
+  if (typeof role !== "string") {
+    throw new Error("Role must be string");
+  }
+  if (role !== "teacher" && role !== "student") {
+    throw new Error("Role must be teacher or student");
+  }
+};

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../../config/index.js";
 import { useAuthContext } from "../../context/AuthContext.jsx";
 
 import Input from "../../components/Input";
@@ -32,35 +32,69 @@ export const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <div className="login-box">
-        <h2 className="login-title">Login</h2>
+      <div className="login-shell">
+        <section className="login-hero" aria-label="Welcome">
+          <p className="login-kicker">Welcome back</p>
+          <h1>Connect with student communities.</h1>
+          <p>
+            Join clubs, participate in events and competitions, and stay active
+            in one platform.
+          </p>
+        </section>
 
-        <div className="login-form">
-          <div className="form-group">
-            <label>Email</label>
-
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+        <div className="login-box">
+          <div className="login-header">
+            <p className="login-kicker">Account</p>
+            <h2 className="login-title">Login</h2>
+            <p className="login-subtitle">
+              Enter your credentials to continue.
+            </p>
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
+          <div className="login-form">
+            <div className="form-group">
+              <label>Email</label>
 
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+              <Input
+                type="email"
+                value={email}
+                variant="primary"
+                placeholder="you@example.com"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+
+              <Input
+                type="password"
+                value={password}
+                variant="primary"
+                placeholder="Enter your password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <Button size="large" onClick={handleLogin} disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </Button>
+
+            {error && <p className="login-error">{error}</p>}
+
+            <div className="auth-switch">
+              <span>You don't have an account yet?</span>
+              <button
+                type="button"
+                className="auth-switch__button"
+                onClick={() => {
+                  navigate(`${BASE_URL}/register`);
+                }}
+              >
+                Create account
+              </button>
+            </div>
           </div>
-
-          <Button size="large" onClick={handleLogin} disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </Button>
-
-          {error && <p className="login-error">{error}</p>}
         </div>
       </div>
     </div>
