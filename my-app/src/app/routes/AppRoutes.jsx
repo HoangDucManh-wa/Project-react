@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage } from "../pages/auth/Login.jsx";
-import { RegisterPage } from "../pages/auth/Register.jsx";
-import { ClubPage } from "../pages/club/Club.jsx";
-import Home from "../pages/Home";
+import { LoginPage } from "../../features/auth/pages/Login.jsx";
+import { RegisterPage } from "../../features/auth/pages/Register.jsx";
+import { ClubPage } from "../../features/club/pages/Club.jsx";
+import { User } from "../../features/profile/pages/User.jsx";
+import Home from "../../features/home/pages/Home";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
-import MainLayout from "../layouts/MainLayout.jsx";
-import { BASE_URL } from "../config/index.js";
+import MainLayout from "../../shared/layouts/MainLayout.jsx";
+import { BASE_URL } from "../../shared/config/index.js";
 export default function AppRoute() {
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ export default function AppRoute() {
         >
           <Route path={`${BASE_URL}`} element={<Home />} />
           <Route path={`${BASE_URL}/club`} element={<ClubPage />} />
+          <Route path={`${BASE_URL}/profile`} element={<User />} />
         </Route>
       </Routes>
     </BrowserRouter>

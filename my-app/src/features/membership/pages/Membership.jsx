@@ -1,4 +1,4 @@
-import { useMembershipContext } from "../../context/MembershipContext";
+import { useMembershipContext } from "../context/MembershipContext";
 import { useNavigate } from "react-router-dom";
 const navigate = useNavigate();
 export const Membership = () => {

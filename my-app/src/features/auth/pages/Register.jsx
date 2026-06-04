@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { BASE_URL } from "../../config/index.js";
-import { useAuthContext } from "../../context/AuthContext";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import { BASE_URL } from "../../../shared/config/index.js";
+import { useAuthContext } from "../context/AuthContext";
+import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
 
 import "./Register.css";
 

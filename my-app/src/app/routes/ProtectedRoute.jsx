@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext.jsx";
-import { BASE_URL } from "../config/index.js";
+import { useAuthContext } from "../../features/auth/context/AuthContext.jsx";
+import { BASE_URL } from "../../shared/config/index.js";
 
 export const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuthContext();

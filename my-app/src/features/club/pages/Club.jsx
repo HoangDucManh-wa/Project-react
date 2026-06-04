@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useClubContext } from "../../context/ClubContext";
-import { useMembershipContext } from "../../context/MembershipContext";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import { useClubContext } from "../context/ClubContext";
+import { useMembershipContext } from "../../membership/context/MembershipContext";
+import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
 import "./Club.css";
 
 const categories = ["academic", "sports", "volunteer", "other"];

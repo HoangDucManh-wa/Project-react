@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../features/auth/context/AuthContext";
 import { BASE_URL } from "../config";
 import "./MainLayout.css";
 
@@ -7,6 +7,7 @@ const basePath = BASE_URL || "";
 const navItems = [
   { label: "Home", path: basePath },
   { label: "Club", path: `${basePath}/club` },
+  { label: "Profile", path: `${basePath}/profile` },
 ];
 
 const MainLayout = () => {

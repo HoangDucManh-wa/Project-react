@@ -5,7 +5,7 @@ import {
   validateStudentId,
   validateUserName,
   validateRole,
-} from "../utils/validator.js";
+} from "../../../shared/utils/validator.js";
 
 import { login, logout, register, getMe } from "../services/authServices.js";
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../config/index.js";
-import { useAuthContext } from "../../context/AuthContext.jsx";
+import { BASE_URL } from "../../../shared/config/index.js";
+import { useAuthContext } from "../context/AuthContext.jsx";
 
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
 
 import "./Login.css";
 

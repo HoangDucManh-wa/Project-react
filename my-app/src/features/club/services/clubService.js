@@ -1,4 +1,4 @@
-import { API_URL_SERVICE } from "../config/index.js";
+import { API_URL_SERVICE } from "../../../shared/config/index.js";
 
 const URL = `${API_URL_SERVICE}/club`;
 
