@@ -57,9 +57,14 @@ export function ClubPage() {
     });
   };
 
-  const handle_getClubsByName = async () => {
+  const handle_getClubsByKeywords = async () => {
     if (!name.trim()) return;
-    await getClubsByName({ name: name.trim() });
+    await getClubsByKeywords({
+      name: name.trim(),
+      field: "clubName",
+      page: page,
+      limit: 10,
+    });
   };
 
   const handle_getClubsByCategory = async () => {
@@ -109,10 +114,10 @@ export function ClubPage() {
             placeholder="Search by name..."
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handle_getClubsByName()}
+            onKeyDown={(e) => e.key === "Enter" && handle_getClubsByKeywords()}
           />
           <Button
-            onClick={handle_getClubsByName}
+            onClick={handle_getClubsByKeywords}
             children="Search"
             size="small"
           />
@@ -203,9 +208,9 @@ export function ClubPage() {
 
                 <p className="clubDescription">{x.description}</p>
 
-                {x.memberCount !== undefined && (
+                {x.stats.memberCount !== undefined && (
                   <span className="club-member-count">
-                    {x.memberCount} members
+                    {x.stats.memberCount} members
                   </span>
                 )}
 
@@ -220,7 +225,12 @@ export function ClubPage() {
                         setClubs((prevClubs) =>
                           prevClubs.map((club) =>
                             getClubId(club) === clubId
-                              ? { ...club, memberCount: club.memberCount - 1 }
+                              ? {
+                                  ...club,
+                                  stats: {
+                                    memberCount: club.stats.memberCount - 1,
+                                  },
+                                }
                               : club,
                           ),
                         );
@@ -241,7 +251,12 @@ export function ClubPage() {
                         setClubs((prevClubs) =>
                           prevClubs.map((club) =>
                             getClubId(club) === clubId
-                              ? { ...club, memberCount: club.memberCount + 1 }
+                              ? {
+                                  ...club,
+                                  stats: {
+                                    memberCount: club.stats.memberCount + 1,
+                                  },
+                                }
                               : club,
                           ),
                         );

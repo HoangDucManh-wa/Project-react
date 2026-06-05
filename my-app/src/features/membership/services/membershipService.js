@@ -4,7 +4,7 @@ const URL = `${API_URL_SERVICE}/membership`;
 
 //1. Join club
 export const joinClubService = async ({ clubId }) => {
-  const response = await fetch(`${URL}/${clubId}/join`, {
+  const response = await fetch(`${URL}/join/${clubId}`, {
     method: "POST",
     credentials: "include",
   });
@@ -20,7 +20,7 @@ export const joinClubService = async ({ clubId }) => {
 
 //2. Leave club
 export const leaveClubService = async ({ clubId }) => {
-  const response = await fetch(`${URL}/${clubId}/leave`, {
+  const response = await fetch(`${URL}/leave/${clubId}`, {
     method: "DELETE",
     credentials: "include",
   });
@@ -36,7 +36,7 @@ export const leaveClubService = async ({ clubId }) => {
 
 //3. Get club members
 export const getClubMembersService = async ({ clubId }) => {
-  const response = await fetch(`${URL}/${clubId}/members`, {
+  const response = await fetch(`${URL}/members/${clubId}`, {
     method: "GET",
     credentials: "include",
   });
@@ -72,7 +72,7 @@ export const updateMemberRoleByAdminService = async ({
   memberId,
   roleInClub,
 }) => {
-  const response = await fetch(`${URL}/${clubId}/members/${memberId}`, {
+  const response = await fetch(`${URL}/role/${clubId}/${memberId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const updateMemberRoleByAdminService = async ({
 
 //6. Delete member by admin
 export const deleteMemberByAdminService = async ({ clubId, memberId }) => {
-  const response = await fetch(`${URL}/${clubId}/members/${memberId}`, {
+  const response = await fetch(`${URL}/delete/${clubId}/${memberId}`, {
     method: "DELETE",
     credentials: "include",
   });

@@ -18,16 +18,24 @@ export const getClubsService = async ({ page, limit }) => {
 };
 
 // SEARCH BY NAME
-export const getClubsByNameService = async ({ name }) => {
-  const response = await fetch(`${URL}/search/name?name=${name}`, {
-    method: "GET",
-    credentials: "include",
-  });
+export const getClubsByKeywordsService = async ({
+  field,
+  name,
+  page,
+  limit,
+}) => {
+  const response = await fetch(
+    `${URL}/search?field=${field}&name=${name}&page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "search clubs by name failed");
+    throw new Error(data.message || `search clubs by ${field} failed`);
   }
   return data.data;
 };
@@ -100,7 +108,30 @@ export const updateClubService = async ({ id, clubData }) => {
   }
   return data.data;
 };
-
+//lock(admin)
+export const lockClubSerivce = async ({ id }) => {
+  const response = await fetch(`${URL}/lock/${id}`, {
+    method: "PUT",
+    credentials: "include",
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("lock club failed");
+  }
+  return data.data;
+};
+//un lock(admin)
+export const unlockClubService = async ({ id }) => {
+  const response = await fetch(`${URL}/unlock/${id}`, {
+    method: "PUT",
+    credentials: "include",
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("unlock club failed");
+  }
+  return data.data;
+};
 // DELETE (admin)
 export const deleteClubService = async ({ id }) => {
   const response = await fetch(`${URL}/${id}`, {

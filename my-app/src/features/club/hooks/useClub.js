@@ -1,7 +1,7 @@
 import {
   getClubsByCategoryService,
   getClubByIdService,
-  getClubsByNameService,
+  getClubsByKeywordsService,
   getClubsService,
   createClubService,
   updateClubService,
@@ -41,9 +41,14 @@ export const useClub = () => {
     [handle],
   );
 
-  const handle_getClubsByName = useCallback(
+  const handle_getClubsByKeywords = useCallback(
     async ({ name }) => {
-      const result = await handle(getClubsByNameService, { name });
+      const result = await handle(getClubsByKeywordsService, {
+        field,
+        name,
+        page,
+        limit,
+      });
       const { clubs } = result;
       setClubs(clubs);
       return result;
@@ -103,7 +108,7 @@ export const useClub = () => {
     pending,
     error,
     getClubs: handle_getClubs,
-    getClubsByName: handle_getClubsByName,
+    getClubsByKeywords: handle_getClubsByKeywords,
     getClubsByCategory: handle_getClubsByCategory,
     getClubById: handle_getClubById,
     createClub: handle_createClub,
